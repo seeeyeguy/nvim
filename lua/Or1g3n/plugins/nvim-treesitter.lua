@@ -47,6 +47,11 @@ return {
 		"vim",
 		"vimdoc",
 		"yaml",
+		"htmldjango",
+	    },
+	    {
+		"tweekmonster/djangoplus.vim",
+		ft = {"html", "htmldjango"},
 	    },
 	    incremental_selection = {
 		enable = true,
@@ -79,6 +84,10 @@ return {
 			--- ... other keymaps
 			["ib"] = { query = "@code_cell.inner", desc = "TS Custom: in code block" },
 			["ab"] = { query = "@code_cell.outer", desc = "TS Custom: around code block" },
+			["af"] = { query = "@function.outer"},
+			["if"] = { query = "@function.inner"},
+			["ac"] = { query = "@class.outer"},
+			["ic"] = { query = "@class.inner"},
 		    },
 		},
 		-- swap = { -- Swap only works with code blocks that are under the same

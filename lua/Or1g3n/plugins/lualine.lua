@@ -26,7 +26,14 @@ return {
 		    'dapui_watches',
 		    'dapui_hover',
 		},
-	    }
+		sections = {
+		    lualine_a = {'mode'},
+		    lualine_b = {'branch', 'diff'},
+		    lualine_c = {
+			{ 'filename', path = 2 }
+		    },
+		},
+	    },
 	})
 
 	-- Auto-refresh lualine theme on colorscheme change

@@ -1,11 +1,9 @@
 return {
     "stevearc/conform.nvim",
-    enabled = false,
+    enabled = true,
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-	local conform = require("conform")
-
-	conform.setup({
+	require("conform").setup({
 	    formatters_by_ft = {
 		javascript = { "prettier" },
 		typescript = { "prettier" },
@@ -30,7 +28,7 @@ return {
 	})
 
 	vim.keymap.set({ "n", "v" }, "<leader>-", function()
-	    conform.format({
+	    require("conform").format({
 		lsp_fallback = true,
 		async = false,
 		-- timeout_ms = 1000,

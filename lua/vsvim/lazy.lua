@@ -14,7 +14,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     end
 end
 vim.opt.rtp:prepend(lazypath)
-
+vim.opt.termguicolors = true
+vim.opts.hererocks.enabled = false
 -- Setup lazy.nvim
 require("lazy").setup({
     spec = {
@@ -34,4 +35,8 @@ require("lazy").setup({
 	enabled = true,
 	notify = false, -- get a notification when changes are found
     },
-})
+    rocks = {
+	enabled = false,
+	hererocks = false,
+},
+)

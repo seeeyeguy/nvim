@@ -257,6 +257,7 @@ return {
 	{ mode = 'n', "<leader>sb", function() Snacks.picker.lines() end, desc = "snacks.picker: Search Buffer Lines" },
 	{ mode = 'n', "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "snacks.picker: Grep Open Buffers" },
 	{ mode = 'n', "<leader>sg", function() Snacks.picker.grep() end, desc = "snacks.picker: Grep" },
+	{ mode = 'n', "<leader>st", function() Snacks.picker.lines({ multi = true, matcher = { fuzzy = true }, prompt = "Fuzzy Text Search",}) end, desc = "snacks.picker: Fuzzy serach text across files"},
 	{ mode = 'n', "<leader>sw", function() Snacks.picker.grep_word() end, desc = "snacks.picker: Search Visual selection or word" },
 	{ mode = 'x', "<leader>sw", function() Snacks.picker.grep_word() end, desc = "snacks.picker: Search Visual selection or word" },
 	-- Search contents

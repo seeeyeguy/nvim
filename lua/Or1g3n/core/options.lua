@@ -24,6 +24,15 @@ local options = {
     wildmode = 'longest:full'
 }
 
+-- Suppress deprecation warnings during plugin ecosystem transition
+local notify = vim.notify
+vim.notify = function(msg, level, opts)
+    if msg:match("lspconfig.*deprecated") then
+        return
+    end
+    notify(msg, level, opts)
+end
+
 -- Check if NuShell is executable and update shell options
 -- https://github.com/nushell/integrations/blob/main/nvim/init.lua (for detailed descriptions of each setting)
 if vim.fn.executable('nu') == 1 then

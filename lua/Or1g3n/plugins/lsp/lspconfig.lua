@@ -31,6 +31,7 @@ return {
 	})
 	-- Toggle diagnostics
 	map.set("n", "<leader>vt",
+
 	    function()
 		local new_config = not vim.diagnostic.config().virtual_text
 		vim.diagnostic.config({ virtual_text = new_config })
@@ -117,14 +118,15 @@ return {
 	vim.api.nvim_create_autocmd("LspProgress", {
 	    ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
 	    callback = function(ev)
-		local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+		local spinner = { "â ‹", "â ™", "â ¹", "â ¸", "â ¼", "â ´", "â ¦", "â §", "â ‡", "â " }
 		vim.notify(vim.lsp.status(), "info", {
 		    id = "lsp_progress",
 		    title = "LSP Progress",
 		    opts = function(notif)
-			notif.icon = ev.data.params.value.kind == "end" and " "
+			notif.icon = ev.data.params.value.kind == "end" and "ï€Œ "
 			or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
 		    end,
+
 		})
 	    end,
 	})
@@ -148,6 +150,7 @@ return {
 	    capabilities = capabilities,
 	    settings = {
 		Lua = {
+
 		    runtime = {
 			version = 'LuaJIT', -- Use LuaJIT for Neovim
 			path = vim.split(package.path, ';'),
@@ -164,6 +167,7 @@ return {
 	    },
 	})
 
+
 	-- Configure Pyright for Python
 	lspconfig.pyright.setup({
 	    cmd = { vim.fn.stdpath("data") .. "/mason/bin/pyright-langserver", "--stdio" },
@@ -175,16 +179,79 @@ return {
 		local git_root = vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1])
 		return git_root or startpath
 	    end,
+	    on_new_config = function(config, root_dir)
+		-- This runs AFTER pyrightconfig.json is loaded, so we can override it
+		local function find_python_path()
+		    -- First check VIRTUAL_ENV environment variable
+		    local venv = os.getenv("VIRTUAL_ENV")
+		    if venv and vim.fn.executable(venv .. "/bin/python") == 1 then
+			vim.notify("🐍 Pyright: Using $VIRTUAL_ENV Python", vim.log.levels.INFO)
+			return venv .. "/bin/python"
+		    end
+
+		    -- Get the root directory (project root)
+		    if root_dir then
+			-- Try common venv locations relative to project root
+			local possible_venvs = {
+			    root_dir .. "/api/.venv/bin/python",
+			    root_dir .. "/api/venv/bin/python",
+			    root_dir .. "/.venv/bin/python",
+			    root_dir .. "/venv/bin/python",
+			    root_dir .. "/env/bin/python",
+			}
+
+			for _, path in ipairs(possible_venvs) do
+			    if vim.fn.executable(path) == 1 then
+				vim.notify("🐍 Pyright: Found venv at " .. path, vim.log.levels.INFO)
+				return path
+			    end
+			end
+		    end
+
+		    -- Fall back to system Python
+		    local fallback = vim.fn.exepath("python3") or vim.fn.exepath("python") or "python3"
+		    vim.notify("🐍 Pyright: Using system Python " .. fallback, vim.log.levels.WARN)
+		    return fallback
+		end
+
+		local python_path = find_python_path()
+		
+		-- Force override the pythonPath (this overrides pyrightconfig.json)
+		config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+
+		    python = {
+			pythonPath = python_path,
+			analysis = {
+			    diagnosticMode = "openFilesOnly",
+
+			    autoImportCompletions = false,
+			},
+		    },
+		    pyright = {
+			disableOrganizeImports = true,
+		    },
+		})
+
+		-- Detailed logging for debugging
+		vim.notify(string.format(
+		    "📋 Pyright Config:\n  Root: %s\n  Python: %s\n  VIRTUAL_ENV: %s",
+		    root_dir or "none",
+		    python_path,
+		    os.getenv("VIRTUAL_ENV") or "not set"
+		), vim.log.levels.INFO)
+	    end,
 	    settings = {
 		pyright = {
 		    disableOrganizeImports = true, -- Using Ruff's import organizer
 		},
 		python = {
+
 		    analysis = {
 			-- Ignore all files for analysis to exclusively use Ruff for linting
 			diagnosticMode = "openFilesOnly",
 			autoImportCompletions = false,
 		    },
+		    pythonPath = "python3", -- This will be overridden by on_new_config
 		},
 	    },
 	})
@@ -206,4 +273,3 @@ return {
 
     end,
 }
-

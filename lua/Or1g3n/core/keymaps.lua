@@ -24,6 +24,14 @@ map.set('n', '<Leader>q', ':q!<CR>', { noremap = true, silent = true, desc = "Ed
 map.set('n', '<Leader>bd', ':bd!<CR>', { noremap = true, silent = true, desc = "Editor: Delete buffer without saving" })
 -- map.set('n', '<Leader>x', ':x<CR>', { noremap = true, silent = true, desc = "Editor: Save and quit" })
 
+-- Copy open file path to clipboard
+map.set('n', '<Leader>cp', function()
+    local path = vim.fn.expand('%:p')
+    vim.fn.setreg('+', path)
+    vim.fn.system({ 'tmux', 'set-buffer', path })
+    print('Copied: ' .. vim.fn.expand('%:p'))
+    end, { desc = 'Copy file path'})
+
 -- Source file / lines
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "lua"},
@@ -146,8 +154,6 @@ map.set('v', '<Leader>n', 'y:let @/ = "<C-r>""<CR>', { noremap = true, silent = 
 -- Code navigation
 map.set('n', 'n', 'nzz', { noremap = true, silent = true, desc = "Editor: Next search result centered" })
 map.set('n', 'N', 'Nzz', { noremap = true, silent = true, desc = "Editor: Previous search result centered" })
-map.set('n', '<C-u>', '2kzz', { noremap = true, silent = true, desc = "Editor: Scroll up centered" })
-map.set('n', '<C-d>', '2jzz', { noremap = true, silent = true, desc = "Editor: Scroll down centered" })
 map.set("n", "j", -- Improve nagivating wrapped line behavior
     function(...)
 	local count = vim.v.count
@@ -187,13 +193,32 @@ map.set('v', '<S-Tab>', '<gv', { noremap = true, silent = true, desc = "Editor: 
 
 -- Format file
 map.set('n', '<Leader>=',
-    function ()
-	-- Save the current cursor position
-	local save_cursor = vim.api.nvim_win_get_cursor(0)
-	-- Re-indent the entire buffer
-	vim.api.nvim_command('normal! gg=G')
-	-- Restore the cursor position
-	vim.api.nvim_win_set_cursor(0, save_cursor)
+    function()
+        local filetype = vim.bo.filetype
+        
+        -- List of filetypes that conform.nvim handles (from your conform config)
+        local conform_filetypes = {
+            'javascript', 'typescript', 'javascriptreact', 'typescriptreact',
+            'svelte', 'css', 'html', 'json', 'yaml', 'markdown',
+            'graphql', 'liquid', 'lua', 'python'
+        }
+        
+        -- Use conform for supported filetypes
+        if vim.tbl_contains(conform_filetypes, filetype) then
+            local save_cursor = vim.api.nvim_win_get_cursor(0)
+	    print("DEBUG: Using conform.format()")  -- ADD THIS
+            require("conform").format({
+                lsp_fallback = true,
+                async = false,
+            })
+            vim.api.nvim_win_set_cursor(0, save_cursor)
+        else
+            print("DEBUG: Using gg=G")  -- ADD THIS
+            -- Fallback to built-in indent for other filetypes
+            local save_cursor = vim.api.nvim_win_get_cursor(0)
+            vim.cmd('normal! gg=G')
+            vim.api.nvim_win_set_cursor(0, save_cursor)
+        end
     end,
     { noremap = true, silent = true, desc = "Editor: Auto-indent entire file" }
 )
@@ -291,4 +316,9 @@ map.set(
   require("Or1g3n.core.custom.project_picker").project_picker,
   { desc = "Pick a project and set working directory" }
 )
-
+-- Paste clipboard inline (forces characterwise, no new line)
+map.set('n', '<Leader>P', function()
+    local reg = vim.fn.getreg('+')
+    local clean = reg:gsub('\n$', '') -- strip trailing newline from linewise yank
+    vim.api.nvim_put({clean}, 'c', true, true)
+end, { noremap = true, silent = true, desc = "Editor: Paste clipboard inline after cursor" })

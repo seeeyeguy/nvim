@@ -1,0 +1,82 @@
+.
+├── after
+│   ├── ftplugin
+│   │   └── markdown.lua
+│   └── queries
+│       └── markdown
+│           └── textobjects.scm
+├── bin
+│   └── diff.exe
+├── fzf
+├── init.lua
+├── lazy-lock.json
+├── lua
+│   ├── Or1g3n
+│   │   ├── core
+│   │   │   ├── custom
+│   │   │   │   ├── autocommands.lua
+│   │   │   │   ├── init.lua
+│   │   │   │   ├── markdown.lua
+│   │   │   │   ├── notebooks.lua
+│   │   │   │   ├── project_picker.lua
+│   │   │   │   ├── terminal.lua
+│   │   │   │   ├── todos.lua
+│   │   │   │   └── utils.lua
+│   │   │   ├── init.lua
+│   │   │   ├── keymaps.lua
+│   │   │   └── options.lua
+│   │   ├── lazy.lua
+│   │   └── plugins
+│   │       ├── ai
+│   │       │   ├── codecompanion.lua
+│   │       │   └── copilot.lua
+│   │       ├── alpha.lua
+│   │       ├── blink-cmp.lua
+│   │       ├── bufferline.lua
+│   │       ├── colorscheme.lua
+│   │       ├── conform.lua
+│   │       ├── debug
+│   │       │   ├── nvim-dap.lua
+│   │       │   ├── nvim-dap-lua.lua
+│   │       │   ├── nvim-dap-python.lua
+│   │       │   ├── nvim-dap-ui.lua
+│   │       │   └── nvim-dap-virtual-text.lua
+│   │       ├── diffview.lua
+│   │       ├── django.lua
+│   │       ├── dressing.lua
+│   │       ├── flash.lua
+│   │       ├── jupytext.lua
+│   │       ├── lazygit.lua
+│   │       ├── lsp
+│   │       │   ├── lspconfig.lua
+│   │       │   └── mason.lua
+│   │       ├── lualine.lua
+│   │       ├── markdown-preview.lua
+│   │       ├── minifiles.lua
+│   │       ├── nvim-autopairs.lua
+│   │       ├── nvim-surround.lua
+│   │       ├── nvim-tree.lua
+│   │       ├── nvim-treesitter.lua
+│   │       ├── quarto.lua
+│   │       ├── render-markdown-nvim.lua
+│   │       ├── snacks
+│   │       │   ├── dashboard.lua
+│   │       │   ├── input.lua
+│   │       │   ├── notifier.lua
+│   │       │   └── picker.lua
+│   │       ├── telescope.lua
+│   │       ├── undotree.lua
+│   │       ├── vim-dadbod.lua
+│   │       ├── vim-maximizer.lua
+│   │       ├── vim-obsession.lua
+│   │       ├── vim-slime.lua
+│   │       └── winshift.lua
+│   └── vsvim
+│       ├── lazy.lua
+│       └── plugins
+│           └── flash.lua
+├── nvim_lua.zip
+├── README.md
+└── tree_lua.txt
+
+16 directories, 63 files
