@@ -322,3 +322,27 @@ map.set('n', '<Leader>P', function()
     local clean = reg:gsub('\n$', '') -- strip trailing newline from linewise yank
     vim.api.nvim_put({clean}, 'c', true, true)
 end, { noremap = true, silent = true, desc = "Editor: Paste clipboard inline after cursor" })
+
+-- Run current Python file in floating terminal
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "python" },
+    callback = function(args)
+        local bufnr = args.buf
+        vim.keymap.set('n', '<Leader>rp',
+            function()
+                local file = vim.fn.expand('%:p')
+                -- Toggle terminal open
+                vim.cmd('ToggleTerminal')
+                -- Small delay to ensure terminal is ready, then send command
+                vim.defer_fn(function()
+                    local term_buf = vim.fn.bufnr('term://')
+                    if term_buf ~= -1 then
+                        vim.api.nvim_chan_send(vim.bo[term_buf].channel, 'python ' .. file .. '\n')
+                    end
+                end, 100)
+            end,
+            { noremap = true, silent = true, desc = "Python: Run current file", buffer = bufnr }
+        )
+    end,
+    desc = "Set Python run keymap"
+})
