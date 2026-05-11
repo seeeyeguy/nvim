@@ -14,5 +14,13 @@ return {
     {
 	name = "tools",
 	dir = "/apps/tools"
-    }
+    },
+    {
+	name = "ldap",
+	dir = "/apps/pmo-common-services-ldap/"
+    },
+    {
+	name = "sso",
+	dir = "/apps/pmo-common-services-sso/"
+    },
 }

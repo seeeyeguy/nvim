@@ -1,3 +1,5 @@
+vim.opt.winbar = "%=%m %f"
+
 local options = {
     -- UI
     termguicolors = true,
@@ -21,7 +23,9 @@ local options = {
     title = false,
     swapfile = false,
     -- Cmd completion
-    wildmode = 'longest:full'
+    wildmode = 'longest:full',
+    -- Gitsigns
+    signcolumn = "yes"
 }
 
 -- Suppress deprecation warnings during plugin ecosystem transition
