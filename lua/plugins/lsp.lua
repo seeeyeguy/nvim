@@ -16,13 +16,14 @@ return {
             })
 
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "pyright", "jsonls", "zls" },
+                ensure_installed = { "lua_ls", "pyright", "jsonls", "zls", "gopls", "ts_ls" },
             })
 
             require("mason-tool-installer").setup({
                 ensure_installed = {
                     "prettier", "stylua", "isort", "black",
                     "pylint", "eslint_d", "marksman",
+                    "golangci-lint", "goimports",
                 },
             })
         end,
@@ -273,6 +274,56 @@ return {
                     local git_root  = vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1])
                     return git_root or startpath
                 end,
+            })
+
+            -- Go
+            lspconfig.gopls.setup({
+                capabilities = capabilities,
+                settings = {
+                    gopls = {
+                        analyses  = { unusedparams = true, shadow = true },
+                        staticcheck = true,
+                        gofumpt   = true,
+                        hints = {
+                            assignVariableTypes    = true,
+                            compositeLiteralFields = true,
+                            compositeLiteralTypes  = true,
+                            constantValues         = true,
+                            functionTypeParameters = true,
+                            parameterNames         = true,
+                            rangeVariableTypes     = true,
+                        },
+                    },
+                },
+            })
+
+            -- TypeScript / JavaScript
+            lspconfig.ts_ls.setup({
+                capabilities = capabilities,
+                settings = {
+                    typescript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints         = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints          = true,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints  = true,
+                            includeInlayEnumMemberValueHints          = true,
+                        },
+                    },
+                    javascript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints         = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints          = true,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints  = true,
+                            includeInlayEnumMemberValueHints          = true,
+                        },
+                    },
+                },
             })
 
             -- Zig
