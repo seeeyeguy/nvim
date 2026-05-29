@@ -3,19 +3,11 @@ local map = vim.keymap
 -- ─── Escape & Basics ─────────────────────────────────────────────────────────
 map.set('i', 'jk', '<Esc>', { noremap = true, silent = true, desc = "Editor: Exit insert mode" })
 map.set('i', '<C-H>', '<C-W>', { noremap = true, desc = "Cmd: Delete entire word" })
-map.set('n', 'vv', 'V', { noremap = true, silent = true, desc = "Editor: Start visual line mode" })
 
 -- ─── Selection ───────────────────────────────────────────────────────────────
 map.set('n', '<Leader>aa', 'ggVG', { noremap = true, silent = true, desc = "Editor: Select all" })
-map.set('n', '<Leader>aj', 'VG',   { noremap = true, silent = true, desc = "Editor: Select all down" })
-map.set('n', '<Leader>ak', 'Vgg',  { noremap = true, silent = true, desc = "Editor: Select all above" })
 
 -- ─── Navigation ──────────────────────────────────────────────────────────────
-map.set('n', '<A-o>', '<C-]>', { noremap = true, silent = true, desc = "Editor: Jump to definition" })
-map.set('n', 'H', '{', { noremap = true, silent = true, desc = "Editor: Jump to prev paragraph" })
-map.set('n', 'L', '}', { noremap = true, silent = true, desc = "Editor: Jump to next paragraph" })
-map.set('v', 'H', '{', { noremap = true, silent = true, desc = "Editor: Jump to prev paragraph" })
-map.set('v', 'L', '}', { noremap = true, silent = true, desc = "Editor: Jump to next paragraph" })
 map.set('n', 'n', 'nzz', { noremap = true, silent = true, desc = "Editor: Next search result centered" })
 map.set('n', 'N', 'Nzz', { noremap = true, silent = true, desc = "Editor: Prev search result centered" })
 map.set("n", "j", function() return vim.v.count == 0 and "gj" or "j" end, { expr = true })
@@ -68,18 +60,20 @@ map.set('n', '<C-Left>',  '<C-W><C-h>', { noremap = true, silent = true, desc = 
 map.set('n', '<C-Right>', '<C-W><C-l>', { noremap = true, silent = true, desc = "Buffer: Navigate right" })
 map.set('n', '<C-Up>',    '<C-W><C-k>', { noremap = true, silent = true, desc = "Buffer: Navigate up" })
 map.set('n', '<C-Down>',  '<C-W><C-j>', { noremap = true, silent = true, desc = "Buffer: Navigate down" })
-map.set('n', '<C-f>', ':bn<CR>', { noremap = true, silent = true, desc = "Buffer: Next buffer" })
-map.set('n', '<C-b>', ':bp<CR>', { noremap = true, silent = true, desc = "Buffer: Prev buffer" })
+map.set('n', ']b', ':bn<CR>', { noremap = true, silent = true, desc = "Buffer: Next buffer" })
+map.set('n', '[b', ':bp<CR>', { noremap = true, silent = true, desc = "Buffer: Prev buffer" })
 
 -- ─── Window Layout & Resize ──────────────────────────────────────────────────
-map.set('n', '<Leader>h', ':WinShift left<CR>',     { noremap = true, silent = true, desc = "WinShift: Move window left" })
-map.set('n', '<Leader>l', ':WinShift right<CR>',    { noremap = true, silent = true, desc = "WinShift: Move window right" })
-map.set('n', '<Leader>k', ':WinShift up<CR>',       { noremap = true, silent = true, desc = "WinShift: Move window up" })
-map.set('n', '<Leader>j', ':WinShift down<CR>',     { noremap = true, silent = true, desc = "WinShift: Move window down" })
-map.set('n', '<Leader>H', ':WinShift far_left<CR>',  { noremap = true, silent = true, desc = "WinShift: Move window far-left" })
-map.set('n', '<Leader>L', ':WinShift far_right<CR>', { noremap = true, silent = true, desc = "WinShift: Move window far-right" })
-map.set('n', '<Leader>J', ':WinShift far_down<CR>',  { noremap = true, silent = true, desc = "WinShift: Move window far-down" })
-map.set('n', '<Leader>K', ':WinShift far_up<CR>',    { noremap = true, silent = true, desc = "WinShift: Move window far-up" })
+map.set('n', '<Leader>wh', ':WinShift left<CR>',     { noremap = true, silent = true, desc = "WinShift: Move window left" })
+map.set('n', '<Leader>wl', ':WinShift right<CR>',    { noremap = true, silent = true, desc = "WinShift: Move window right" })
+map.set('n', '<Leader>wk', ':WinShift up<CR>',       { noremap = true, silent = true, desc = "WinShift: Move window up" })
+map.set('n', '<Leader>wj', ':WinShift down<CR>',     { noremap = true, silent = true, desc = "WinShift: Move window down" })
+map.set('n', '<Leader>wH', ':WinShift far_left<CR>',  { noremap = true, silent = true, desc = "WinShift: Move window far-left" })
+map.set('n', '<Leader>wL', ':WinShift far_right<CR>', { noremap = true, silent = true, desc = "WinShift: Move window far-right" })
+map.set('n', '<Leader>wJ', ':WinShift far_down<CR>',  { noremap = true, silent = true, desc = "WinShift: Move window far-down" })
+map.set('n', '<Leader>wK', ':WinShift far_up<CR>',    { noremap = true, silent = true, desc = "WinShift: Move window far-up" })
+map.set('n', '<Leader>ws', ':WinShift<CR>',           { noremap = true, silent = true, desc = "WinShift: Start move mode" })
+map.set('n', '<Leader>wx', ':WinShift swap<CR>',      { noremap = true, silent = true, desc = "WinShift: Swap windows" })
 map.set('n', '<A-=>', ':wincmd =<CR>', { noremap = true, silent = true, desc = "Buffer: Rebalance layout" })
 
 local function resize_dynamic(direction)
@@ -150,7 +144,7 @@ end, { noremap = true, silent = true, desc = "Editor: Format file" })
 map.set('n', '<Leader>.', ":new | put =execute('messages') | wincmd J | res -15<CR>", { noremap = true, silent = true, desc = "Messages: Open message history" })
 
 -- ─── Git ─────────────────────────────────────────────────────────────────────
-map.set('n', '<A-g><A-c>', function() vim.cmd(":let @/ = '^<\\|^=\\|^>'") end, { noremap = true, desc = "Git: Highlight conflict markers" })
+map.set('n', '<leader>gc', function() vim.cmd(":let @/ = '^<\\|^=\\|^>'") end, { noremap = true, desc = "Git: Highlight conflict markers" })
 
 -- ─── Project Picker ──────────────────────────────────────────────────────────
 map.set('n', '<leader>pp', function()
