@@ -1,0 +1,7 @@
+require('core.options')
+require('core.keymaps')
+require('core.autocommands')
+require('custom.terminal')
+require('custom.markdown')
+require('custom.todos')
+require('custom.notebooks')
