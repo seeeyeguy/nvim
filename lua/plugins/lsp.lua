@@ -327,7 +327,14 @@ return {
             })
 
             -- Zig
-            lspconfig.zls.setup({ capabilities = capabilities })
+            lspconfig.zls.setup({
+                capabilities = capabilities,
+                settings = {
+                    zls = {
+                        enable_build_on_save = true,
+                    },
+                },
+            })
         end,
     },
 }
