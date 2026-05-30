@@ -17,9 +17,10 @@ return {
             autotag    = { enable = true },
             ensure_installed = {
                 "bash", "c", "css", "dockerfile", "graphql",
-                "html", "htmldjango", "json", "lua", "markdown", "markdown_inline",
+                "html", "htmldjango", "json", "markdown", "markdown_inline",
                 "nu", "python", "query", "sql", "vim", "vimdoc", "yaml", "zig",
             },
+            ignore_install = { "lua" },
             incremental_selection = { enable = true, keymaps = {} },
             textobjects = {
                 move = {
