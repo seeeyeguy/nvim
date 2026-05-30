@@ -16,7 +16,7 @@ return {
             indent     = { enable = true },
             autotag    = { enable = true },
             ensure_installed = {
-                "bash", "c", "css", "dockerfile", "gitignore", "graphql",
+                "bash", "c", "css", "dockerfile", "graphql",
                 "html", "htmldjango", "json", "lua", "markdown", "markdown_inline",
                 "nu", "python", "query", "sql", "vim", "vimdoc", "yaml", "zig",
             },
