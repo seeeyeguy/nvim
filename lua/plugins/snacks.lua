@@ -188,6 +188,7 @@ return {
         { mode = 'n', "<leader>:",       function() Snacks.picker.command_history() end, desc = "Command History" },
         { mode = 'n', "<leader><space>", function() Snacks.picker.files()      end, desc = "Find Files" },
         { mode = 'n', "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+        { mode = 'n', "<leader>fb",      function() Snacks.picker.buffers()    end, desc = "Find Buffers" },
         { mode = 'n', "<leader>fg",      function() Snacks.picker.git_files()  end, desc = "Find Git Files" },
         { mode = 'n', "<leader>fr",      function() Snacks.picker.recent()     end, desc = "Find Recent" },
         -- Git
@@ -196,6 +197,7 @@ return {
         -- Grep
         { mode = 'n', "<leader>sb",      function() Snacks.picker.lines()      end, desc = "Search Buffer Lines" },
         { mode = 'n', "<leader>sB",      function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
+        { mode = 'n', "<leader>sg",      function() Snacks.picker.grep()       end, desc = "Grep" },
         { mode = 'n', "<leader>sw",      function() Snacks.picker.grep_word()  end, desc = "Search Word" },
         { mode = 'x', "<leader>sw",      function() Snacks.picker.grep_word()  end, desc = "Search Selection" },
         -- Search
