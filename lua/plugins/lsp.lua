@@ -116,6 +116,22 @@ return {
                 float = { border = "rounded" },
             })
 
+            -- lspconfig v2 removed these commands — restore them
+            local function lsp_restart()
+                vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = 0 }))
+                vim.defer_fn(function() vim.cmd("edit") end, 500)
+            end
+            vim.api.nvim_create_user_command("LspRestart", lsp_restart, { desc = "Restart LSP servers for current buffer" })
+            vim.api.nvim_create_user_command("LspInfo", function()
+                local clients = vim.lsp.get_clients({ bufnr = 0 })
+                if #clients == 0 then
+                    vim.notify("No LSP clients attached", vim.log.levels.INFO)
+                else
+                    local names = vim.tbl_map(function(c) return c.name end, clients)
+                    vim.notify("LSP clients: " .. table.concat(names, ", "), vim.log.levels.INFO)
+                end
+            end, { desc = "Show attached LSP clients" })
+
             map.set("n", "<leader>vt", function()
                 vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
             end, { desc = "Toggle diagnostic virtual text" })
@@ -164,7 +180,7 @@ return {
                     map.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
                     opts.desc = "LSP: Restart"
-                    map.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+                    map.set("n", "<leader>rs", lsp_restart, opts)
 
                     opts.desc = "LSP: Toggle inlay hints"
                     map.set("n", "<leader>ih", function()
@@ -327,7 +343,14 @@ return {
             })
 
             -- Zig
-            lspconfig.zls.setup({ capabilities = capabilities })
+            lspconfig.zls.setup({
+                capabilities = capabilities,
+                settings = {
+                    zls = {
+                        enable_build_on_save = true,
+                    },
+                },
+            })
         end,
     },
 }
