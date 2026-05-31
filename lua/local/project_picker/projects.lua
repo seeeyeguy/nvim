@@ -1,26 +1,18 @@
 return {
     {
-	name = "nvim_config",
+	name = "nvim-config",
 	dir = "~/.config/nvim"
     },
     {
-	name = "bi_portal",
-	dir = "/apps/bi-portal"
+	name = "zig",
+	dir = "/apps/zig"
     },
     {
-	name = "tiering",
-	dir = "/apps/tiering"
+	name = "gpu-tracker",
+	dir = "/apps/zig/gpu-tracker"
     },
     {
-	name = "tools",
-	dir = "/apps/tools"
-    },
-    {
-	name = "ldap",
-	dir = "/apps/pmo-common-services-ldap/"
-    },
-    {
-	name = "sso",
-	dir = "/apps/pmo-common-services-sso/"
+	name = "veil",
+	dir = "/apps/zig/veil"
     },
 }

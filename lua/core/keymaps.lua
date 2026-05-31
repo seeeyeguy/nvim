@@ -25,6 +25,7 @@ map.set('n', '<Leader>yf', function()
     print('Copied: ' .. path)
 end, { desc = 'Editor: Yank file path to clipboard' })
 
+map.set('n', '<Leader>rk', ':source ~/.config/nvim/lua/core/keymaps.lua<CR>')
 -- ─── Lua File Execute ────────────────────────────────────────────────────────
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "lua",
@@ -197,3 +198,6 @@ map.set('c', '<C-k>', '<C-p>', { noremap = true, desc = "Cmd: Prev completion" }
 map.set('c', '<C-h>', '<Up>',  { noremap = true, desc = "Cmd: Prev history" })
 map.set('c', '<C-l>', '<Down>', { noremap = true, desc = "Cmd: Next history" })
 map.set('c', '<C-H>', '<C-W>', { noremap = true, desc = "Cmd: Delete word" })
+
+-- ─── Zig ───────────────────────────────────────────────────────────
+map.set('n', '<Leader>;', 'A;<Esc>', {desc = "Append semicolon to end of a line"})
