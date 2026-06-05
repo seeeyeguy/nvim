@@ -1,6 +1,24 @@
 local customutils = require("custom.utils")
 
 return {
+    -- ─── Aerial: symbol outline ──────────────────────────────────────────────
+    {
+        "stevearc/aerial.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        keys = {
+            { "<leader>a",  "<cmd>AerialToggle!<CR>", desc = "Aerial: Toggle outline" },
+            { "{",          "<cmd>AerialPrev<CR>",     desc = "Aerial: Prev symbol" },
+            { "}",          "<cmd>AerialNext<CR>",     desc = "Aerial: Next symbol" },
+        },
+        opts = {
+            backends = { "lsp", "treesitter", "markdown", "man" },
+            layout = { min_width = 28, default_direction = "prefer_right" },
+            attach_mode = "global",
+            show_guides = true,
+            filter_kind = false,
+        },
+    },
+
     -- ─── Alpha: dashboard ────────────────────────────────────────────────────
     {
         "goolord/alpha-nvim",
@@ -96,6 +114,21 @@ return {
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
+            local function macro_recording()
+                local reg = vim.fn.reg_recording()
+                return reg ~= "" and ("  @" .. reg) or ""
+            end
+
+            local function lsp_clients()
+                local clients = vim.lsp.get_clients({ bufnr = 0 })
+                if #clients == 0 then return "" end
+                local names = {}
+                for _, c in ipairs(clients) do
+                    if c.name ~= "null-ls" then table.insert(names, c.name) end
+                end
+                return #names > 0 and (" " .. table.concat(names, ", ")) or ""
+            end
+
             require("lualine").setup({
                 options = {
                     disabled_filetypes = {
@@ -105,11 +138,21 @@ return {
                         'dap-repl', 'dapui_console', 'dapui_scopes',
                         'dapui_breakpoints', 'dapui_stacks', 'dapui_watches',
                     },
-                    sections = {
-                        lualine_a = { 'mode' },
-                        lualine_b = { 'branch', 'diff' },
-                        lualine_c = { { 'filename', path = 2 } },
+                },
+                sections = {
+                    lualine_a = { 'mode' },
+                    lualine_b = { 'branch', 'diff' },
+                    lualine_c = {
+                        { 'filename', path = 2 },
+                        { macro_recording, color = { fg = "#f38ba8" } },
                     },
+                    lualine_x = {
+                        { 'diagnostics', sources = { 'nvim_lsp' }, symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " } },
+                        lsp_clients,
+                        'filetype',
+                    },
+                    lualine_y = { 'progress' },
+                    lualine_z = { 'location' },
                 },
             })
         end,

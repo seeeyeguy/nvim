@@ -34,7 +34,7 @@ return {
             highlight = { backdrop = true, matches = true, priority = 5000 },
             modes = {
                 search = {
-                    enabled = false, highlight = { backdrop = false },
+                    enabled = true, highlight = { backdrop = false },
                     jump = { history = true, register = true, nohlsearch = true },
                 },
                 char = {
@@ -138,6 +138,27 @@ return {
             map.set('n', '<leader>od', ':Obsess!<CR>',                        { noremap = true, silent = true, desc = "Session: Stop and delete" })
             map.set('n', '<leader>or', ':source ' .. session_file .. '<CR>',  { noremap = true, silent = true, desc = "Session: Restore last" })
         end,
+    },
+
+    -- ─── Comment toggling ────────────────────────────────────────────────────
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        config = true,
+    },
+
+    -- ─── TODO / FIXME / NOTE highlights ──────────────────────────────────────
+    {
+        "folke/todo-comments.nvim",
+        event = "VeryLazy",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {},
+        keys = {
+            { "]t", function() require("todo-comments").jump_next() end, desc = "Todo: Next" },
+            { "[t", function() require("todo-comments").jump_prev() end, desc = "Todo: Prev" },
+            { "<leader>st", "<cmd>lua Snacks.picker.todo_comments()<cr>",               desc = "Todo: Search all" },
+            { "<leader>sT", "<cmd>lua Snacks.picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } })<cr>", desc = "Todo: Search TODO/FIX" },
+        },
     },
 
     -- ─── Django support ───────────────────────────────────────────────────────
