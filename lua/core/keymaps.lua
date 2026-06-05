@@ -146,6 +146,7 @@ map.set('n', '<Leader>.', ":new | put =execute('messages') | wincmd J | res -15<
 
 -- ─── Git ─────────────────────────────────────────────────────────────────────
 map.set('n', '<leader>gc', function() vim.cmd(":let @/ = '^<\\|^=\\|^>'") end, { noremap = true, desc = "Git: Highlight conflict markers" })
+map.set("n", "<leader>gds", ":DiffviewOpen --staged<CR>", { noremap = true, silent = true, desc = "Git: Diffview staged" })
 
 -- ─── Project Picker ──────────────────────────────────────────────────────────
 map.set('n', '<leader>pp', function()
