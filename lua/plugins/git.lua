@@ -17,10 +17,10 @@ return {
                 local gs  = require("gitsigns")
                 local map = vim.keymap.set
 
-                map("n", "]h", function() gs.nav_hunk("next") end, { buffer = bufnr, desc = "Git: Next hunk" })
-                map("n", "[h", function() gs.nav_hunk("prev") end, { buffer = bufnr, desc = "Git: Prev hunk" })
-                map("n", "]H", function() gs.nav_hunk("next", { target = "staged" }) end, { buffer = bufnr, desc = "Git: Next staged hunk" })
-                map("n", "[H", function() gs.nav_hunk("prev", { target = "staged" }) end, { buffer = bufnr, desc = "Git: Prev staged hunk" })
+                map("n", "]h", function() gs.nav_hunk("next") gs.preview_hunk() end, { buffer = bufnr, desc = "Git: Next hunk" })
+                map("n", "[h", function() gs.nav_hunk("prev") gs.preview_hunk() end, { buffer = bufnr, desc = "Git: Prev hunk" })
+                map("n", "]H", function() gs.nav_hunk("next", { target = "staged" }) gs.preview_hunk() end, { buffer = bufnr, desc = "Git: Next staged hunk" })
+                map("n", "[H", function() gs.nav_hunk("prev", { target = "staged" }) gs.preview_hunk() end, { buffer = bufnr, desc = "Git: Prev staged hunk" })
 
                 map("n", "<leader>gs", gs.stage_hunk,                       { buffer = bufnr, desc = "Git: Stage hunk" })
                 map("n", "<leader>gr", gs.reset_hunk,                       { buffer = bufnr, desc = "Git: Reset hunk" })
