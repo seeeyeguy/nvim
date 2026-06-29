@@ -27,7 +27,7 @@ return {
                     "notify", "cmp_menu", "noice", "flash_prompt",
                     function(win) return not vim.api.nvim_win_get_config(win).focusable end,
                 },
-                trigger = "", max_length = false,
+                trigger = "<c-s>", max_length = false,
             },
             jump  = { jumplist = true, pos = "start", history = false, register = false, nohlsearch = false, autojump = false },
             label = { uppercase = true, current = true, after = true, before = false, style = "overlay", reuse = "lowercase", distance = true, min_pattern_length = 0 },
